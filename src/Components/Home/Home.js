@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Home.scss'
 import axios from 'axios';
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
 
 
 
@@ -36,16 +36,15 @@ function Home() {
   const[topRate,setToprate]=useState([]);
   const [upComingMovies,setUpComingMovies]=useState([]);
   const [letastMovies,setLetastMovies]=useState([]);
+  const [genre,setGenre]=useState([]);
+  
 
   
   useEffect(()=>{
            const Popular=async()=>{
             try {
               const {data:{results},}=await axios.get(`${url}/movie/${popular}?api_key=${apiKey}`);
-                setPopularMovies(results)
-                console.log(PopularMovies);
-
-                 
+                setPopularMovies(results)   
             } catch (error) {
               console.log(error);
             }
@@ -83,23 +82,32 @@ function Home() {
               console.log(error);
             }
            }
-
-          //  const genreMovie=async()=>{
+          //  const PopularTv=async()=>{
           //   try {
-          //     const {data:{genres}}=await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`);
-            
-          //       setTypeMovie(genres)
-          //       console.log(typeMovie);
-              
+          //     const {data:{results},}=await axios.get(`${url}/tv/${popular}?api_key=${apiKey}`);
+          //       setPopularTvShows(results) 
+                
           //   } catch (error) {
           //     console.log(error);
           //   }
           //  }
+
+           const getAllGenre=async()=>{
+            try {
+              const {data:{genres}}=await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`);
+               setGenre(genres)
+               
+              
+            } catch (error) {
+              console.log(error);
+            }
+           }
        
            Popular();
            topRated();
            up_coming();
            latestMovies();
+           getAllGenre();
 
           
   },[])
@@ -111,7 +119,8 @@ function Home() {
        style={
         {backgroundImage:PopularMovies[0]?`url(${`${imgUrl}/${PopularMovies[0].poster_path}`})`:"rgb(16 16 16)"}
       }>
-        {/* <h1>{PopularMovies[0].title}</h1> */}
+        {/* <h1>{PopularMovies[0].original_title}</h1> 
+        <p>{PopularMovies[0].discription}</p> */}
       </div>
       
       <Row title={"Popular on netflix"} arr={PopularMovies}/>
@@ -125,12 +134,11 @@ function Home() {
       <div className="genreBox">
         
        {
-        // genreMovies.map((item)=>{
-        //   <Link key={item.id} to={`/genre/${item.id}`}>{item.name}</Link>
-        // })
-       
+           
+         genre.map((item)=>(
+          <Link key={item.id} to={`genre/${item.id}`}>{item.name}</Link>
+         ))
        }
-        
       </div>
       </section>
       

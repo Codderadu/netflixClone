@@ -1,0 +1,20 @@
+.heading{
+    padding :20px;
+}
+.img-for{
+   height: 400px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+
+ 
+    img{
+        height: 100%;
+        margin: 20px;
+        transition: transform 0.5s ;
+        border-radius: 10px;
+     &:hover{
+            transform:translateY(-10px) scale(1.1);
+         }
+    }
+}

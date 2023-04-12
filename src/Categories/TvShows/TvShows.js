@@ -1,31 +1,38 @@
+import "./TvShows.scss"
+import { useEffect, useState } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 
+const imgUrl='https://image.tmdb.org/t/p/original'
 const url="https://api.themoviedb.org/3";
+const popular="popular";
 const apiKey="e62679c9f2a1ba54bfae1058a0f54eee";
-const TvShowsLatest="tv/popular";
-
 function TvShows() {
-
-  const [populorTvShows,setPopularTvshows]=useState([]);
+     const [tvshow,setTvshow]=useState([]);
   useEffect(()=>{
-    const TVshows=async()=>{
-      const {data:{results},}=await axios.get(`${url}/${TvShowsLatest}?api_key=${apiKey}`);
-      setPopularTvshows(results)
+   // https://api.themoviedb.org/3/tv/popular?api_key=e62679c9f2a1ba54bfae1058a0f54eee&language=en-US&page=1
+    const TvShow=async()=>{
+      const {data:{results}}=await axios.get(`${url}/tv/${popular}?api_key=${apiKey}`)
+      setTvshow(results)
       
-      // https://api.themoviedb.org/3/tv/latest?api_key=<<api_key>>&language=en-US
     }
-      TVshows();   
+     TvShow();
+
   },[])
-  return <div>
-         {
-          populorTvShows.map((item)=>{
-                <div>
-                  <h1 key={item.id}>{item.name}</h1>
-                </div>
-          })
-         } 
-  </div>;
+
+  return (
+    <div >
+      <div className="heading">
+        <h1>TVShows</h1></div>
+    
+    <div className="img-for">
+     
+        {
+          tvshow.map((item)=>(
+            <img key={item.id} src={`${imgUrl}/${item.poster_path}`} alt="" />
+          ))
+        }
+  </div>
+  </div>);
 }
 
 export default TvShows;
